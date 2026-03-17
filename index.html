@@ -1,1121 +1,965 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlySidz — Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --sky: #0a0e1a;
-    --horizon: #0d1b2e;
-    --steel: #4a9eca;
-    --gold: #f5a623;
-    --amber: #ff6b35;
-    --white: #f0f4f8;
-    --dim: #8aa4be;
-    --panel: rgba(13,27,46,0.85);
-  }
-  /* DAY MODE */
-  body.day-mode {
-    --sky: #b8d4f0;
-    --horizon: #d0e8fa;
-    --panel: rgba(255,255,255,0.75);
-    --white: #0a0e1a;
-    --dim: #2a4a6a;
-    --steel: #1a6a9a;
-    --gold: #c47a00;
-    background: linear-gradient(to bottom, #87ceeb, #d0e8fa) !important;
-  }
-  body.day-mode .stars { opacity: 0; }
-  body.day-mode nav { background: rgba(180,210,240,0.95); border-bottom-color: rgba(26,106,154,0.4); }
-  body.day-mode .mobile-drawer { background: rgba(180,210,240,0.98); }
-  body.day-mode footer { background: rgba(180,210,240,0.9); }
-  body.day-mode .stat-card { background: rgba(255,255,255,0.8); border-color: rgba(26,106,154,0.3); }
-  body.day-mode .skill-category { background: rgba(255,255,255,0.8); border-color: rgba(26,106,154,0.2); }
-  body.day-mode .hobby-card { background: rgba(255,255,255,0.8); border-color: rgba(26,106,154,0.2); }
-  body.day-mode .hobby-card.featured { background: linear-gradient(135deg, rgba(26,106,154,0.1), rgba(255,255,255,0.9)); }
-  body.day-mode .hobby-content p { color: rgba(10,14,26,0.75); }
-  body.day-mode .about-text p { color: rgba(10,14,26,0.8); }
-  body.day-mode .contact-link { color: #2a4a6a; border-color: rgba(26,106,154,0.2); }
-  body.day-mode .contact-link:hover { color: #0a0e1a; background: rgba(26,106,154,0.08); }
-  body.day-mode .contact-info p { color: rgba(10,14,26,0.75); }
-  body.day-mode .log-entry { background: rgba(255,255,255,0.8); border-color: rgba(26,106,154,0.2); }
-  body.day-mode .log-body { color: rgba(10,14,26,0.65); }
-  body.day-mode .metar-box { background: rgba(255,255,255,0.8); }
-  body.day-mode .metar-raw { color: #1a6a9a; }
-  body.day-mode .metar-btn { color: #2a4a6a; border-color: rgba(26,106,154,0.3); }
-  body.day-mode .metar-btn:hover, body.day-mode .metar-btn.active { color: #0a0e1a; background: rgba(26,106,154,0.12); }
-  body.day-mode .form-group input, body.day-mode .form-group textarea { background: rgba(255,255,255,0.9); color: #0a0e1a; border-color: rgba(26,106,154,0.3); }
-  body.day-mode .form-group input::placeholder, body.day-mode .form-group textarea::placeholder { color: #2a4a6a; }
-  body.day-mode body::after { opacity: 0; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Siddharth Lambore — AI Web Designer, Cybersecurity Explorer, Aviation Enthusiast" />
+  <title>SIDZ.DEV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   SIDDHARTH LAMBORE — PORTFOLIO v2
+   Aesthetic: Hacker Terminal × Aviation Cockpit × Elite Dev
+   Stack: Pure HTML + CSS — Zero JS, Zero Frameworks
+   ═══════════════════════════════════════════════════════════════════════════ */
 
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
+/* ── 0. Tokens ───────────────────────────────────────────────────────────── */
+:root {
+  /* Core Palette */
+  --black:         #030607;
+  --bg-base:       #060d0b;
+  --bg-raised:     #0a1612;
+  --bg-card:       #0d1c17;
+  --bg-card-hover: #112219;
 
-  /* ── LOADING SCREEN ── */
-  #loader {
-    position: fixed; inset: 0; z-index: 999999;
-    background: #050810;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    transition: opacity 0.8s;
-  }
-  .loader-runway {
-    width: 4px; height: 200px;
-    background: linear-gradient(to bottom, var(--gold), transparent);
-    position: relative; margin-bottom: 30px;
-  }
-  .loader-plane {
-    position: absolute; bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    font-size: 2rem;
-    animation: loaderTakeoff 2.5s ease-in forwards;
-  }
-  @keyframes loaderTakeoff {
-    0%   { bottom: 0; opacity: 1; }
-    70%  { bottom: 180px; opacity: 1; }
-    100% { bottom: 220px; opacity: 0; }
-  }
-  .loader-text {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 4px;
-    color: var(--steel); text-transform: uppercase;
-    animation: loaderBlink 0.8s infinite;
-  }
-  .loader-bar-wrap {
-    width: 200px; height: 2px;
-    background: rgba(74,158,202,0.2);
-    margin-top: 16px; overflow: hidden;
-  }
-  .loader-bar-fill {
-    height: 100%;
-    background: linear-gradient(to right, var(--steel), var(--gold));
-    animation: loaderFill 2.5s ease-out forwards;
-  }
-  @keyframes loaderFill { from { width:0; } to { width:100%; } }
-  @keyframes loaderBlink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  /* Accent — Neon Green */
+  --green:         #22c55e;
+  --green-bright:  #4ade80;
+  --green-dim:     #16a34a;
+  --green-glow:    rgba(34, 197, 94, 0.15);
+  --green-glow-sm: rgba(34, 197, 94, 0.08);
+  --green-border:  rgba(34, 197, 94, 0.30);
 
-  body {
-    background: var(--sky);
-    color: var(--white);
-    font-family: 'Rajdhani', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
+  /* Borders */
+  --border-dark:   #0e1f18;
+  --border-mid:    #183028;
+  --border-bright: #1e4035;
 
-  /* ── CURSOR ── */
-  .cursor {
-    position: fixed; width:20px; height:20px;
-    border: 2px solid var(--steel); border-radius:50%;
-    pointer-events:none; z-index:9999;
-    transform:translate(-50%,-50%);
-    transition: transform 0.1s, border-color 0.2s;
-  }
-  .cursor-dot {
-    position:fixed; width:4px; height:4px;
-    background:var(--gold); border-radius:50%;
-    pointer-events:none; z-index:9999;
-    transform:translate(-50%,-50%);
-  }
+  /* Text */
+  --text-white:    #e8f5f0;
+  --text-primary:  #a8c5bb;
+  --text-muted:    #4a7060;
+  --text-dim:      #253530;
 
-  /* ── STARS ── */
-  .stars { position:fixed; inset:0; z-index:0; pointer-events:none; transition: opacity 0.5s; }
-  .star { position:absolute; background:white; border-radius:50%; animation: twinkle var(--d,3s) infinite ease-in-out; }
-  @keyframes twinkle { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+  /* Status */
+  --status-live:    #22c55e;
+  --status-wip:     #f59e0b;
+  --status-concept: #475569;
 
-  .cloud-layer { position:fixed; bottom:0; left:0; right:0; height:200px; background:linear-gradient(to top,rgba(13,27,46,0.95),transparent); z-index:1; pointer-events:none; }
+  /* Type */
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-body: 'Inter', 'Helvetica Neue', sans-serif;
 
-  /* ── ATC TICKER ── */
-  #atcTicker {
-    position:fixed; bottom:0; left:0; right:0; z-index:200;
-    background:rgba(5,10,20,0.9); border-top:1px solid rgba(74,158,202,0.2);
-    padding:8px 20px; display:flex; align-items:center; gap:14px;
-    backdrop-filter:blur(6px);
-  }
-  .atc-label {
-    font-family:'Share Tech Mono',monospace; font-size:0.6rem;
-    letter-spacing:3px; color:var(--gold); white-space:nowrap; flex-shrink:0;
-  }
-  .atc-msg {
-    font-family:'Share Tech Mono',monospace; font-size:0.65rem;
-    color:var(--steel); letter-spacing:1px; overflow:hidden; white-space:nowrap;
-  }
-  .atc-cursor { display:inline-block; width:8px; height:12px; background:var(--steel); animation:loaderBlink 0.7s infinite; margin-left:2px; vertical-align:middle; }
+  /* Spacing */
+  --container: 960px;
+  --sec-pad:   5rem 0;
+}
 
-  /* ── NAV ── */
-  nav {
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    padding:16px 48px; display:flex; justify-content:space-between; align-items:center;
-    background:rgba(10,14,26,0.85); backdrop-filter:blur(12px);
-    border-bottom:1px solid rgba(74,158,202,0.2);
-  }
-  .nav-logo { font-family:'Orbitron',monospace; font-size:1.1rem; font-weight:700; color:var(--steel); letter-spacing:3px; display:flex; align-items:center; gap:10px; }
-  .nav-logo span { color:var(--gold); }
-  .nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
-  .nav-links a { font-family:'Share Tech Mono',monospace; font-size:0.7rem; color:var(--dim); text-decoration:none; letter-spacing:2px; text-transform:uppercase; transition:color 0.3s; position:relative; }
-  .nav-links a::before { content:'//'; margin-right:5px; color:var(--steel); opacity:0; transition:opacity 0.3s; }
-  .nav-links a:hover { color:var(--white); }
-  .nav-links a:hover::before { opacity:1; }
+/* ── 1. Reset ────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  /* Day/Night toggle */
-  .theme-toggle {
-    background:transparent; border:1px solid rgba(74,158,202,0.3);
-    color:var(--dim); padding:6px 12px; cursor:pointer;
-    font-family:'Share Tech Mono',monospace; font-size:0.6rem;
-    letter-spacing:2px; transition:all 0.3s;
-  }
-  .theme-toggle:hover { border-color:var(--gold); color:var(--gold); }
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
-  /* Audio toggle */
-  .audio-toggle {
-    background:transparent; border:1px solid rgba(74,158,202,0.3);
-    color:var(--dim); padding:6px 10px; cursor:pointer;
-    font-family:'Share Tech Mono',monospace; font-size:0.75rem;
-    transition:all 0.3s;
-  }
-  .audio-toggle:hover { border-color:var(--steel); color:var(--steel); }
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  /* HUD */
-  .hud-bar {
-    position:absolute; top:80px; right:20px; z-index:10;
-    font-family:'Share Tech Mono',monospace; font-size:0.65rem;
-    color:var(--steel); text-align:right; line-height:1.8;
-    opacity:0.7; pointer-events:none;
-  }
-  .hud-val { color:var(--gold); }
+/* ── 2. Background System ────────────────────────────────────────────────── */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(34, 197, 94, 0.18) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 30%, transparent 75%);
+}
 
-  /* ── HERO ── */
-  #hero { position:relative; height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden; z-index:2; }
-  .horizon-line { position:absolute; bottom:35%; left:0; right:0; height:1px; background:linear-gradient(to right,transparent,var(--steel),var(--gold),var(--steel),transparent); opacity:0.4; }
-  .runway { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:180px; height:45%; perspective:400px; z-index:3; }
-  .runway-inner { width:100%; height:100%; background:linear-gradient(to top,#1a2a3a,transparent); transform:rotateX(30deg); transform-origin:bottom center; border-left:2px solid rgba(74,158,202,0.4); border-right:2px solid rgba(74,158,202,0.4); display:flex; flex-direction:column; justify-content:space-evenly; align-items:center; padding:10px; }
-  .runway-stripe { width:20px; height:8px; background:var(--gold); opacity:0.7; animation:stripeMove 2s linear infinite; }
-  @keyframes stripeMove { 0%{transform:translateY(0);opacity:0.7} 100%{transform:translateY(40px);opacity:0} }
-  .plane-container { position:absolute; bottom:38%; left:50%; transform:translateX(-50%); z-index:10; animation:planeHover 4s ease-in-out infinite; }
-  @keyframes planeHover { 0%,100%{transform:translateX(-50%) translateY(0) rotate(-2deg)} 50%{transform:translateX(-50%) translateY(-18px) rotate(2deg)} }
-  .plane-svg { width:120px; filter:drop-shadow(0 0 20px rgba(74,158,202,0.7)) drop-shadow(0 0 40px rgba(74,158,202,0.3)); }
-  .hero-content { position:relative; z-index:5; text-align:center; top:-80px; }
-  .hero-label { font-family:'Share Tech Mono',monospace; font-size:0.7rem; letter-spacing:6px; color:var(--steel); text-transform:uppercase; margin-bottom:16px; animation:fadeInDown 1s 0.3s both; }
-  .hero-name { font-family:'Orbitron',monospace; font-size:clamp(3rem,8vw,6.5rem); font-weight:900; line-height:0.9; letter-spacing:-2px; background:linear-gradient(135deg,#ffffff 0%,var(--steel) 50%,var(--gold) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:fadeInDown 1s 0.5s both; }
-  .hero-title { font-family:'Rajdhani',sans-serif; font-size:1.1rem; font-weight:300; letter-spacing:8px; color:var(--dim); text-transform:uppercase; margin-top:16px; animation:fadeInDown 1s 0.7s both; }
-  .hero-cta { margin-top:40px; display:flex; gap:16px; justify-content:center; animation:fadeInDown 1s 0.9s both; }
-  .scroll-indicator { position:absolute; bottom:60px; left:50%; transform:translateX(-50%); z-index:10; display:flex; flex-direction:column; align-items:center; gap:8px; animation:fadeInDown 1s 1.2s both; }
-  .scroll-indicator span { font-family:'Share Tech Mono',monospace; font-size:0.6rem; letter-spacing:3px; color:var(--dim); }
-  .scroll-line { width:1px; height:40px; background:linear-gradient(to bottom,var(--steel),transparent); animation:scrollPulse 2s ease-in-out infinite; }
-  @keyframes scrollPulse { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:0.3;transform:scaleY(0.6)} }
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% -5%, rgba(34, 197, 94, 0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 30% at 10% 90%, rgba(34, 197, 94, 0.05) 0%, transparent 60%);
+}
 
-  /* ── BUTTONS ── */
-  .btn-primary,.btn-secondary { padding:12px 32px; background:transparent; font-family:'Share Tech Mono',monospace; font-size:0.75rem; letter-spacing:3px; text-transform:uppercase; cursor:none; text-decoration:none; transition:all 0.3s; position:relative; overflow:hidden; }
-  .btn-primary { border:1px solid var(--steel); color:var(--steel); }
-  .btn-secondary { border:1px solid var(--gold); color:var(--gold); }
-  .btn-primary::before,.btn-secondary::before { content:''; position:absolute; inset:0; transform:translateX(-101%); transition:transform 0.3s; z-index:-1; }
-  .btn-primary::before { background:var(--steel); }
-  .btn-secondary::before { background:var(--gold); }
-  .btn-primary:hover { color:var(--sky); }
-  .btn-primary:hover::before { transform:translateX(0); }
-  .btn-secondary:hover { color:var(--sky); }
-  .btn-secondary:hover::before { transform:translateX(0); }
+/* ── 3. Page Wrapper ─────────────────────────────────────────────────────── */
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
 
-  /* ── SECTIONS ── */
-  section { position:relative; z-index:2; padding:100px 0; }
-  .section-inner { max-width:1100px; margin:0 auto; padding:0 48px; }
-  .section-tag { font-family:'Share Tech Mono',monospace; font-size:0.65rem; letter-spacing:5px; color:var(--steel); text-transform:uppercase; margin-bottom:8px; opacity:0.8; }
-  .section-title { font-family:'Orbitron',monospace; font-size:clamp(2rem,5vw,3.5rem); font-weight:700; color:var(--white); line-height:1; margin-bottom:60px; position:relative; }
-  .section-title::after { content:''; display:block; margin-top:16px; width:60px; height:2px; background:linear-gradient(to right,var(--gold),var(--steel)); }
-  .divider { width:100%; height:1px; background:linear-gradient(to right,transparent,rgba(74,158,202,0.3),transparent); }
+/* ── 4. Header ───────────────────────────────────────────────────────────── */
+.header {
+  padding-top: 2.5rem;
+  padding-bottom: 5rem;
+  border-bottom: 1px solid var(--border-mid);
+}
 
-  /* ── ABOUT ── */
-  #about { background:transparent; isolation:isolate; }
-  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
-  .about-text p { font-size:1.1rem; line-height:1.9; color:rgba(240,244,248,0.8); font-weight:300; margin-bottom:20px; }
-  .about-text p strong { color:var(--steel); font-weight:600; }
-  .about-stats { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-  .stat-card { background:var(--panel); border:1px solid rgba(74,158,202,0.2); padding:24px; position:relative; overflow:hidden; transition:border-color 0.3s,transform 0.3s; }
-  .stat-card::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:linear-gradient(to bottom,var(--gold),var(--steel)); }
-  .stat-card:hover { border-color:rgba(74,158,202,0.5); transform:translateY(-4px); }
-  .stat-number { font-family:'Orbitron',monospace; font-size:2rem; font-weight:700; color:var(--gold); display:block; }
-  .stat-label { font-family:'Share Tech Mono',monospace; font-size:0.65rem; letter-spacing:2px; color:var(--dim); text-transform:uppercase; margin-top:4px; display:block; }
+.header-topbar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--border-mid);
+  background: var(--bg-raised);
+  margin-bottom: 4rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
 
-  /* ── SKILLS ── */
-  #skills { background:rgba(13,27,46,0.4); }
-  .skills-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
-  .skill-category { background:var(--panel); border:1px solid rgba(74,158,202,0.15); padding:32px; position:relative; transition:all 0.3s; overflow:hidden; }
-  .skill-category::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(to right,var(--steel),var(--gold)); transform:scaleX(0); transition:transform 0.3s; transform-origin:left; }
-  .skill-category:hover::after { transform:scaleX(1); }
-  .skill-category:hover { border-color:rgba(74,158,202,0.4); }
-  .skill-icon { font-size:2.5rem; margin-bottom:16px; display:block; }
-  .skill-category-name { font-family:'Orbitron',monospace; font-size:0.8rem; font-weight:600; color:var(--steel); letter-spacing:2px; margin-bottom:20px; text-transform:uppercase; }
-  .skill-item { margin-bottom:14px; }
-  .skill-item-header { display:flex; justify-content:space-between; margin-bottom:6px; }
-  .skill-name { font-family:'Rajdhani',sans-serif; font-size:0.9rem; font-weight:500; color:var(--white); }
-  .skill-pct { font-family:'Share Tech Mono',monospace; font-size:0.7rem; color:var(--gold); }
-  .skill-bar { height:3px; background:rgba(74,158,202,0.15); position:relative; overflow:hidden; }
-  .skill-fill { height:100%; background:linear-gradient(to right,var(--steel),var(--gold)); width:0%; transition:width 1.5s cubic-bezier(0.17,0.67,0.35,1); }
+.topbar-right {
+  margin-left: auto;
+  color: var(--green);
+}
 
-  /* ── HOBBIES ── */
-  #hobbies { background:transparent; }
-  .hobbies-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
-  .hobby-card { background:var(--panel); border:1px solid rgba(74,158,202,0.15); padding:36px; position:relative; overflow:hidden; cursor:none; transition:all 0.4s; display:flex; gap:24px; align-items:flex-start; }
-  .hobby-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(to right,transparent,var(--steel),transparent); transform:scaleX(0); transition:transform 0.4s; }
-  .hobby-card:hover { transform:translateY(-6px); border-color:rgba(74,158,202,0.4); }
-  .hobby-card:hover::before { transform:scaleX(1); }
-  .hobby-icon { font-size:2.8rem; flex-shrink:0; filter:drop-shadow(0 0 12px rgba(74,158,202,0.6)); }
-  .hobby-content h3 { font-family:'Orbitron',monospace; font-size:0.9rem; font-weight:600; color:var(--steel); letter-spacing:2px; margin-bottom:10px; text-transform:uppercase; }
-  .hobby-content p { font-size:0.95rem; line-height:1.7; color:rgba(240,244,248,0.7); font-weight:300; }
-  .hobby-card.featured { grid-column:span 2; background:linear-gradient(135deg,rgba(74,158,202,0.08),rgba(13,27,46,0.95)); border-color:rgba(74,158,202,0.3); }
-  .corner-tl,.corner-br { position:absolute; width:20px; height:20px; pointer-events:none; }
-  .corner-tl { top:16px; left:16px; border-top:1px solid var(--steel); border-left:1px solid var(--steel); }
-  .corner-br { bottom:16px; right:16px; border-bottom:1px solid var(--steel); border-right:1px solid var(--steel); }
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  margin-right: 0.4rem;
+  vertical-align: middle;
+}
 
-  /* ── METAR WIDGET ── */
-  #metar-section { background:rgba(13,27,46,0.5); }
-  .metar-box { background:var(--panel); border:1px solid rgba(74,158,202,0.25); padding:28px; position:relative; }
-  .metar-box::before { content:'LIVE AIRPORT WEATHER — METAR'; position:absolute; top:-10px; left:20px; background:var(--sky); padding:0 10px; font-family:'Share Tech Mono',monospace; font-size:0.6rem; letter-spacing:3px; color:var(--gold); }
-  .metar-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:16px; }
-  .metar-item { text-align:center; }
-  .metar-val { font-family:'Orbitron',monospace; font-size:1.4rem; color:var(--gold); font-weight:700; }
-  .metar-lbl { font-family:'Share Tech Mono',monospace; font-size:0.55rem; color:var(--dim); letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
-  .metar-raw { font-family:'Share Tech Mono',monospace; font-size:0.65rem; color:var(--steel); margin-top:16px; opacity:0.7; word-break:break-all; }
-  .metar-airports { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
-  .metar-btn { background:transparent; border:1px solid rgba(74,158,202,0.3); color:var(--dim); padding:6px 16px; font-family:'Share Tech Mono',monospace; font-size:0.65rem; letter-spacing:2px; cursor:pointer; transition:all 0.3s; }
-  .metar-btn:hover,.metar-btn.active { border-color:var(--steel); color:var(--steel); background:rgba(74,158,202,0.1); }
+.header-body {
+  position: relative;
+}
 
+.header-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--green);
+  border: 1px solid var(--green-border);
+  background: var(--green-glow-sm);
+  padding: 0.3rem 0.75rem;
+  margin-bottom: 1.5rem;
+}
 
-  /* ── FLIGHT LOG ── */
-  #flightlog-section { background:transparent; }
-  .log-entry { background:var(--panel); border:1px solid rgba(74,158,202,0.15); padding:24px 28px; margin-bottom:16px; display:grid; grid-template-columns:80px 1fr auto; gap:20px; align-items:center; transition:all 0.3s; }
-  .log-entry:hover { border-color:rgba(74,158,202,0.4); transform:translateX(6px); }
-  .log-date { font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--dim); letter-spacing:1px; text-align:center; }
-  .log-date span { font-family:'Orbitron',monospace; font-size:1.1rem; color:var(--gold); display:block; }
-  .log-title { font-family:'Orbitron',monospace; font-size:0.85rem; color:var(--white); margin-bottom:6px; letter-spacing:1px; }
-  .log-body { font-family:'Rajdhani',sans-serif; font-size:0.9rem; color:rgba(240,244,248,0.6); line-height:1.5; }
-  .log-badge { font-family:'Share Tech Mono',monospace; font-size:0.6rem; padding:4px 10px; border:1px solid rgba(74,158,202,0.3); color:var(--steel); white-space:nowrap; }
+.hero-name {
+  font-family: var(--font-mono);
+  font-size: clamp(3.2rem, 9vw, 6.5rem);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--text-white);
+  margin-bottom: 2rem;
+  text-shadow: 0 0 60px rgba(34, 197, 94, 0.12);
+}
 
-  /* ── RIG & SIMS ── */
-  #rig { background:rgba(13,27,46,0.3); }
+.hero-name-accent {
+  color: var(--green);
+  text-shadow:
+    0 0 30px rgba(34, 197, 94, 0.4),
+    0 0 80px rgba(34, 197, 94, 0.15);
+}
 
-  /* ── CONTACT ── */
-  #contact { background:rgba(13,27,46,0.4); }
-  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
-  .contact-info p { font-size:1.05rem; line-height:1.8; color:rgba(240,244,248,0.7); font-weight:300; margin-bottom:36px; }
-  .contact-links { display:flex; flex-direction:column; gap:14px; }
-  .contact-link { display:flex; align-items:center; gap:14px; color:var(--dim); text-decoration:none; font-family:'Share Tech Mono',monospace; font-size:0.8rem; letter-spacing:1px; padding:12px 16px; border:1px solid rgba(74,158,202,0.1); transition:all 0.3s; }
-  .contact-link:hover { color:var(--white); border-color:rgba(74,158,202,0.4); background:rgba(74,158,202,0.05); padding-left:24px; }
-  .contact-link-icon { font-size:1.2rem; }
-  .contact-form { display:flex; flex-direction:column; gap:16px; }
-  .form-group input,.form-group textarea { width:100%; background:rgba(74,158,202,0.05); border:1px solid rgba(74,158,202,0.2); color:var(--white); padding:14px 16px; font-family:'Rajdhani',sans-serif; font-size:1rem; outline:none; transition:border-color 0.3s; resize:none; }
-  .form-group input:focus,.form-group textarea:focus { border-color:var(--steel); }
-  .form-group input::placeholder,.form-group textarea::placeholder { color:var(--dim); font-family:'Share Tech Mono',monospace; font-size:0.75rem; letter-spacing:1px; }
-  .form-group textarea { height:120px; }
-  .form-submit { padding:14px 36px; background:transparent; border:1px solid var(--gold); color:var(--gold); font-family:'Share Tech Mono',monospace; font-size:0.75rem; letter-spacing:3px; text-transform:uppercase; cursor:none; transition:all 0.3s; align-self:flex-start; position:relative; overflow:hidden; }
-  .form-submit::before { content:''; position:absolute; inset:0; background:var(--gold); transform:translateX(-101%); transition:transform 0.3s; z-index:-1; }
-  .form-submit:hover { color:var(--sky); }
-  .form-submit:hover::before { transform:translateX(0); }
+.hero-tagline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 3rem;
+}
 
-  /* ── FOOTER ── */
-  footer { position:relative; z-index:2; padding:30px 48px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(74,158,202,0.15); }
-  footer p { font-family:'Share Tech Mono',monospace; font-size:0.65rem; letter-spacing:2px; color:var(--dim); }
-  footer span { color:var(--steel); }
+.tag-dot {
+  color: var(--green);
+  opacity: 0.5;
+}
 
-  /* ── ANIMATIONS ── */
-  @keyframes fadeInDown { from{opacity:0;transform:translateY(-30px)} to{opacity:1;transform:translateY(0)} }
-  .reveal { opacity:0; transform:translateY(40px); transition:opacity 0.8s,transform 0.8s; }
-  .reveal.visible { opacity:1; transform:translateY(0); }
+.hero-stripe {
+  height: 2px;
+  background: linear-gradient(90deg, var(--green) 0%, rgba(34, 197, 94, 0.3) 40%, transparent 80%);
+}
 
-  /* Scanline */
-  body::after { content:''; position:fixed; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); pointer-events:none; z-index:9998; }
+/* ── 5. Section Layout ───────────────────────────────────────────────────── */
+.main {
+  padding-bottom: 2rem;
+}
 
-  /* ── MOBILE ── */
-  /* ── HAMBURGER MENU ── */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    z-index: 200;
-  }
-  .hamburger span {
-    display: block;
-    width: 24px; height: 2px;
-    background: var(--steel);
-    transition: all 0.3s;
-    border-radius: 2px;
-  }
-  .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-  .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+.section {
+  padding: var(--sec-pad);
+  border-bottom: 1px solid var(--border-dark);
+}
 
-  /* Mobile nav drawer */
-  .mobile-drawer {
-    display: none;
-    position: fixed;
-    top: 56px; left: 0; right: 0;
-    background: rgba(10,14,26,0.98);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(74,158,202,0.2);
-    z-index: 99;
-    padding: 20px 24px;
-    flex-direction: column;
-    gap: 0;
-  }
-  .mobile-drawer.open { display: flex; }
-  .mobile-drawer a, .mobile-drawer button {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--dim);
-    text-decoration: none;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(74,158,202,0.08);
-    display: block;
-    transition: color 0.2s;
-    background: transparent;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    text-align: left;
-    cursor: pointer;
-    width: 100%;
-  }
-  .mobile-drawer a:hover, .mobile-drawer button:hover { color: var(--white); }
-  .mobile-drawer .drawer-controls {
-    display: flex; gap: 12px; padding-top: 16px;
-  }
-  .mobile-drawer .drawer-controls button {
-    border: 1px solid rgba(74,158,202,0.3);
-    padding: 10px 16px;
-    font-size: 0.7rem;
-    color: var(--dim);
-    width: auto;
-  }
+.section:last-child {
+  border-bottom: none;
+}
 
-  @media(max-width:768px){
-    /* Nav */
-    nav { padding:14px 20px; }
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
 
-    /* Hide custom cursor on touch */
-    .cursor, .cursor-dot { display: none; }
-    body { cursor: auto; }
-    .btn-primary, .btn-secondary, .form-submit { cursor: pointer; }
+.section-num {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 0.15em;
+  opacity: 0.8;
+}
 
-    /* Sections */
-    section { padding: 70px 0; }
-    .section-inner { padding: 0 20px; }
-    .section-title { margin-bottom: 36px; }
+.section-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--text-primary);
+}
 
-    /* Hero */
-    .hero-content { top: -40px; }
-    .hero-title { font-size: 0.85rem; letter-spacing: 4px; }
-    .hero-cta { flex-direction: column; align-items: center; gap: 12px; }
-    .btn-primary, .btn-secondary { width: 200px; text-align: center; }
-    .plane-svg { width: 80px; }
-    .scroll-indicator { bottom: 80px; }
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border-bright) 0%, transparent 100%);
+}
 
-    /* About */
-    .about-grid { grid-template-columns: 1fr; gap: 36px; }
-    .about-stats { grid-template-columns: 1fr 1fr; gap: 14px; }
-    .stat-card { padding: 16px; }
-    .stat-number { font-size: 1.5rem; }
+/* ── 6. About Section ────────────────────────────────────────────────────── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 3rem;
+  align-items: start;
+}
 
-    /* Skills */
-    .skills-grid { grid-template-columns: 1fr; gap: 16px; }
-    .skill-category { padding: 24px; }
+.about-p {
+  font-size: 0.97rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.9;
+  max-width: 58ch;
+}
 
-    /* Hobbies */
-    .hobbies-grid { grid-template-columns: 1fr; }
-    .hobby-card { padding: 24px; gap: 16px; }
-    .hobby-card.featured { grid-column: span 1; }
-    .hobby-icon { font-size: 2rem; }
+.about-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-mid);
+  border: 1px solid var(--border-mid);
+}
 
-    /* METAR */
-    .metar-airports { gap: 8px; }
-    .metar-btn { font-size: 0.55rem; padding: 6px 10px; }
-    .metar-grid { grid-template-columns: repeat(2,1fr); gap: 14px; }
-    .metar-val { font-size: 1.1rem; }
-    .metar-box { padding: 20px; }
+.metric-box {
+  background: var(--bg-card);
+  padding: 1.2rem 1rem;
+  text-align: center;
+}
 
-    /* Rig grid */
-    #rig .section-inner > div[style] { grid-template-columns: 1fr !important; gap: 24px !important; }
+.metric-box:hover {
+  background: var(--bg-card-hover);
+  border-left: 2px solid var(--green);
+}
 
-    /* Flight Log */
-    .log-entry { grid-template-columns: 1fr; gap: 10px; }
-    .log-badge { width: fit-content; }
+.metric-val {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 16px rgba(34, 197, 94, 0.4);
+  margin-bottom: 0.3rem;
+}
 
-    /* Contact */
-    .contact-grid { grid-template-columns: 1fr; gap: 36px; }
-    .contact-link { font-size: 0.7rem; padding: 10px 12px; }
-    .form-submit { width: 100%; text-align: center; }
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
 
-    /* Footer */
-    footer { flex-direction: column; gap: 12px; text-align: center; padding: 20px; }
+/* ── 7. Skills Section ───────────────────────────────────────────────────── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-mid);
+  border: 1px solid var(--border-mid);
+}
 
-    /* Hide HUD & ATC on mobile */
-    .hud-bar { display: none; }
-    #atcTicker { display: none; }
+.skill-card {
+  background: var(--bg-card);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
 
-    /* Quiz modal */
-    #quizBox { padding: 24px !important; }
-  }
+.skill-card:hover {
+  background: var(--bg-card-hover);
+  box-shadow: inset 3px 0 0 var(--green);
+}
 
-  @media(max-width:480px){
-    .hero-name { font-size: clamp(2.8rem, 16vw, 4rem); }
-    .section-title { font-size: clamp(1.6rem, 8vw, 2.5rem); }
-    .about-stats { grid-template-columns: 1fr; }
-    .metar-grid { grid-template-columns: repeat(2,1fr); }
-    .metar-airports { flex-direction: column; }
-    .metar-btn { width: 100%; text-align: center; }
-    .skill-category { padding: 20px; }
-    .hobby-card { flex-direction: column; }
-  }
-</style>
+.skill-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill-index {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--green);
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+
+.skill-badge {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid currentColor;
+}
+
+.skill-badge.active     { color: var(--status-live); }
+.skill-badge.learning   { color: var(--status-wip); }
+.skill-badge.enthusiast { color: var(--status-concept); }
+
+.skill-name {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-white);
+  letter-spacing: -0.01em;
+}
+
+.skill-bar-wrap {
+  height: 3px;
+  background: var(--border-bright);
+  position: relative;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  width: var(--pct);
+  background: linear-gradient(90deg, var(--green-dim), var(--green));
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+}
+
+.skill-pct {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--green);
+  letter-spacing: 0.05em;
+  text-align: right;
+}
+
+/* ── 8. Projects Section ─────────────────────────────────────────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border-mid);
+  border: 1px solid var(--border-mid);
+}
+
+.project-card {
+  background: var(--bg-card);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  position: relative;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: transparent;
+}
+
+.project-card:hover {
+  background: var(--bg-card-hover);
+}
+
+.project-card:hover::before {
+  background: var(--green);
+  box-shadow: 2px 0 12px rgba(34, 197, 94, 0.3);
+}
+
+.project-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-id {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+}
+
+.project-status {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.status-live    { color: var(--status-live); text-shadow: 0 0 8px rgba(34,197,94,0.5); }
+.status-wip     { color: var(--status-wip); }
+.status-concept { color: var(--status-concept); }
+
+.project-title {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+.project-desc {
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.75;
+  flex: 1;
+}
+
+.project-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border-dark);
+  margin-top: auto;
+}
+
+.project-tag {
+  font-family: var(--font-mono);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--green);
+  background: var(--green-glow-sm);
+  border: 1px solid var(--green-border);
+  padding: 0.15rem 0.5rem;
+}
+
+/* ── 9. Connections Section ──────────────────────────────────────────────── */
+.conn-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-mid);
+  border: 1px solid var(--border-mid);
+}
+
+.conn-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.4rem;
+  background: var(--bg-card);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.conn-card:hover {
+  background: var(--green-glow-sm);
+  border-bottom: 2px solid var(--green);
+}
+
+.conn-card:hover .conn-name  { color: var(--green); }
+.conn-card:hover .conn-icon  { color: var(--green); border-color: var(--green); background: var(--green-glow); }
+.conn-card:hover .conn-arrow { color: var(--green); }
+
+.conn-email {
+  grid-column: span 3;
+}
+
+.conn-icon {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border: 1px solid var(--border-bright);
+  background: var(--bg-raised);
+  padding: 0.35rem 0.5rem;
+  min-width: 38px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.conn-info {
+  flex: 1;
+}
+
+.conn-name {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-white);
+  line-height: 1.2;
+}
+
+.conn-sub {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-top: 0.2rem;
+}
+
+.conn-arrow {
+  font-size: 1rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+/* ── 10. Footer ──────────────────────────────────────────────────────────── */
+.footer {
+  padding: 2rem 0 3.5rem;
+}
+
+.footer-top-rule {
+  height: 1px;
+  background: linear-gradient(90deg, var(--green) 0%, var(--border-mid) 40%, transparent 100%);
+  margin-bottom: 1.75rem;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.footer-left {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.footer-brand {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--green);
+  letter-spacing: -0.01em;
+}
+
+.footer-ver {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+.footer-center {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.footer-cmd {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.footer-cmd:hover {
+  color: var(--green);
+}
+
+.footer-right .footer-note {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+}
+
+/* ── 11. Utilities ───────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(34, 197, 94, 0.2);
+  color: var(--green-bright);
+}
+
+:focus-visible {
+  outline: 1px solid var(--green);
+  outline-offset: 3px;
+}
+
+a { color: inherit; text-decoration: none; }
+
+::-webkit-scrollbar       { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); }
+::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+/* ── 12. Responsive — Tablet ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .page-wrapper    { padding: 0 1.25rem; }
+  .header-topbar   { flex-wrap: wrap; gap: 0.5rem; }
+  .topbar-right    { margin-left: 0; }
+  .hero-name       { font-size: clamp(2.5rem, 12vw, 4rem); }
+  .hero-tagline    { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+  .tag-dot         { display: none; }
+  .about-grid      { grid-template-columns: 1fr; }
+  .about-metrics   { grid-template-columns: repeat(4, 1fr); }
+  .skills-grid     { grid-template-columns: 1fr; }
+  .projects-grid   { grid-template-columns: 1fr; }
+  .conn-grid       { grid-template-columns: 1fr 1fr; }
+  .conn-email      { grid-column: span 2; }
+  .footer-inner    { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
+
+/* ── 13. Responsive — Mobile ─────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  :root            { --sec-pad: 3rem 0; }
+  .header-topbar   { display: none; }
+  .about-metrics   { grid-template-columns: 1fr 1fr; }
+  .conn-grid       { grid-template-columns: 1fr; }
+  .conn-email      { grid-column: span 1; }
+  .footer-center   { flex-wrap: wrap; gap: 0.75rem; }
+}
+  </style>
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
-<div id="loader">
-  <div class="loader-runway">
-    <div class="loader-plane">✈️</div>
-  </div>
-  <div class="loader-text">Preparing for departure...</div>
-  <div class="loader-bar-wrap"><div class="loader-bar-fill"></div></div>
-</div>
+  <!-- ░░ BACKGROUND LAYERS ░░ -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="stars" id="stars"></div>
-<div class="cloud-layer"></div>
+  <div class="page-wrapper">
 
-<!-- ATC TICKER -->
-<div id="atcTicker">
-  <span class="atc-label">▶ ATC LIVE</span>
-  <span class="atc-msg" id="atcMsg"></span><span class="atc-cursor"></span>
-</div>
-
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">✈ <span>FlySidz</span></div>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#hobbies">Hobbies</a></li>
-    <li><a href="#metar-section">Weather</a></li>
-    <li><a href="#rig">Rig & Sims</a></li>
-    <li><a href="#contact">Connect</a></li>
-    <li><button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">☀ DAY</button></li>
-    <li><button class="audio-toggle" id="audioBtn" onclick="toggleAudio()">🔇</button></li>
-  </ul>
-  <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- MOBILE DRAWER -->
-<div class="mobile-drawer" id="mobileDrawer">
-  <a href="#about" onclick="closeDrawer()">About</a>
-  <a href="#skills" onclick="closeDrawer()">Skills</a>
-  <a href="#hobbies" onclick="closeDrawer()">Hobbies</a>
-  <a href="#metar-section" onclick="closeDrawer()">Weather</a>
-  <a href="#rig" onclick="closeDrawer()">Rig & Sims</a>
-  <a href="#contact" onclick="closeDrawer()">Connect</a>
-  <div class="drawer-controls">
-    <button onclick="toggleTheme();closeDrawer();" id="drawerThemeBtn">☀ DAY MODE</button>
-    <button onclick="toggleAudio()">🔇 AUDIO</button>
-  </div>
-</div>
-
-<!-- HUD -->
-<div class="hud-bar">
-  ALT <span class="hud-val" id="altitude">35,000</span> FT<br>
-  SPD <span class="hud-val" id="speed">450</span> KTS<br>
-  HDG <span class="hud-val" id="heading">270</span>°<br>
-  <span style="color:var(--gold)">▶ CRUISE</span>
-</div>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="horizon-line"></div>
-  <div class="runway">
-    <div class="runway-inner">
-      <div class="runway-stripe"></div>
-      <div class="runway-stripe" style="animation-delay:0.3s"></div>
-      <div class="runway-stripe" style="animation-delay:0.6s"></div>
-      <div class="runway-stripe" style="animation-delay:0.9s"></div>
-      <div class="runway-stripe" style="animation-delay:1.2s"></div>
-    </div>
-  </div>
-  <div class="plane-container">
-    <svg class="plane-svg" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="100" cy="60" rx="75" ry="12" fill="#c8dce8" opacity="0.9"/>
-      <path d="M175 60 Q195 60 185 55 Q200 60 185 65 Q195 60 175 60Z" fill="#e8f4fd"/>
-      <path d="M90 60 L60 25 L50 30 L75 60Z" fill="#4a9eca" opacity="0.9"/>
-      <path d="M90 60 L60 95 L50 90 L75 60Z" fill="#4a9eca" opacity="0.9"/>
-      <path d="M82 60 L58 30 L56 32 L80 60Z" fill="#2a7aaa" opacity="0.5"/>
-      <path d="M30 60 L20 40 L28 40 L36 60Z" fill="#4a9eca" opacity="0.9"/>
-      <path d="M30 60 L20 80 L28 80 L36 60Z" fill="#4a9eca" opacity="0.6"/>
-      <ellipse cx="78" cy="50" rx="8" ry="4" fill="#3a8ab8"/>
-      <ellipse cx="78" cy="70" rx="8" ry="4" fill="#3a8ab8"/>
-      <circle cx="150" cy="57" r="3" fill="rgba(245,166,35,0.8)"/>
-      <circle cx="138" cy="57" r="3" fill="rgba(245,166,35,0.8)"/>
-      <circle cx="126" cy="57" r="3" fill="rgba(245,166,35,0.8)"/>
-      <circle cx="114" cy="57" r="3" fill="rgba(245,166,35,0.6)"/>
-      <ellipse cx="68" cy="50" rx="4" ry="3" fill="rgba(245,166,35,0.5)"/>
-      <ellipse cx="68" cy="70" rx="4" ry="3" fill="rgba(245,166,35,0.5)"/>
-    </svg>
-  </div>
-  <div class="hero-content">
-    <p class="hero-label">// Cleared for Takeoff — Portfolio v2.0</p>
-    <h1 class="hero-name">FLY<br>SIDZ</h1>
-    <p class="hero-title">PC Nerd &nbsp;·&nbsp; Aviation Enthusiast &nbsp;·&nbsp; Explorer</p>
-    <div class="hero-cta">
-      <a href="#about" class="btn-primary">Board Now</a>
-      <a href="#contact" class="btn-secondary">Hail Control</a>
-    </div>
-  </div>
-  <div class="scroll-indicator">
-    <span>SCROLL</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-inner">
-    <div class="reveal">
-      <p class="section-tag">// Pilot Log — 001</p>
-      <h2 class="section-title">About Me</h2>
-    </div>
-    <div class="about-grid">
-      <div class="about-text reveal">
-        <p>Hello! I'm <strong>FlySidz</strong> — a tech enthusiast who enjoys exploring the world of computers, aviation, and modern technology.</p>
-        <p>I'm a <strong>basic coder</strong> with a strong interest in <strong>PC hardware</strong>, always curious about how systems work and constantly learning something new in the tech space. Whether it's tweaking hardware, exploring new software, or experimenting with code, I enjoy understanding the technology that powers the digital world.</p>
-        <p>Beyond tech, I'm a dedicated <strong>aviation nerd</strong>. Aviation has always fascinated me — from aircraft systems to flight operations and simulators. I enjoy learning about aeronautics and helping others who want to get started with aviation or flight simulation.</p>
-        <p>For me, every day is about <strong>learning, experimenting, and sharing knowledge</strong> — whether it's technology on the ground or aircraft in the sky.</p>
+    <!-- ████████████████████████ HEADER ████████████████████████ -->
+    <header class="header">
+      <div class="header-topbar">
+        <span class="topbar-item"><span class="dot"></span> ONLINE</span>
+        <span class="topbar-item">SIDZ-BOT // v3.1.0</span>
+        <span class="topbar-item">15.8497°N 74.4977°E</span>
+        <span class="topbar-item topbar-right">SIDZ.DEV</span>
       </div>
-      <div class="about-stats reveal">
-        <div class="stat-card">
-          <span class="stat-number">1500+</span>
-          <span class="stat-label">Virtual Flight Hours & Still Adding More</span>
+
+      <div class="header-body">
+        <div class="header-badge">PORTFOLIO</div>
+        <h1 class="hero-name">SIDDHARTH<br /><span class="hero-name-accent">LAMBORE</span></h1>
+        <p class="hero-tagline">
+          <span class="tag-seg">AI Web Designer</span>
+          <span class="tag-dot">·</span>
+          <span class="tag-seg">Cybersecurity Explorer</span>
+          <span class="tag-dot">·</span>
+          <span class="tag-seg">Aviation Enthusiast</span>
+        </p>
+        <div class="hero-stripe"></div>
+      </div>
+    </header>
+
+    <!-- ████████████████████████  MAIN  ████████████████████████ -->
+    <main class="main">
+
+      <!-- ─── ABOUT ──────────────────────────────────────────── -->
+      <section class="section" id="about">
+        <div class="section-head">
+          <span class="section-num">01</span>
+          <span class="section-title">ABOUT</span>
+          <div class="section-line"></div>
         </div>
-        <div class="stat-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;">
-          <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-            <rect x="8" y="8" width="56" height="38" rx="3" fill="#0d1b2e" stroke="#4a9eca" stroke-width="1.5"/>
-            <rect x="12" y="12" width="48" height="30" rx="2" fill="#050d18"/>
-            <rect x="16" y="17" width="20" height="2" rx="1" fill="#4a9eca" opacity="0.9"><animate attributeName="width" values="20;34;20" dur="2.5s" repeatCount="indefinite"/></rect>
-            <rect x="16" y="22" width="30" height="2" rx="1" fill="#f5a623" opacity="0.7"><animate attributeName="width" values="30;16;30" dur="2s" repeatCount="indefinite"/></rect>
-            <rect x="16" y="27" width="25" height="2" rx="1" fill="#4a9eca" opacity="0.6"><animate attributeName="width" values="25;38;25" dur="3s" repeatCount="indefinite"/></rect>
-            <rect x="16" y="32" width="18" height="2" rx="1" fill="#f5a623" opacity="0.5"><animate attributeName="width" values="18;28;18" dur="1.8s" repeatCount="indefinite"/></rect>
-            <rect x="16" y="37" width="6" height="2" rx="1" fill="#4a9eca"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>
-            <rect x="31" y="46" width="10" height="6" rx="1" fill="#4a9eca" opacity="0.5"/>
-            <rect x="24" y="52" width="24" height="3" rx="1.5" fill="#4a9eca" opacity="0.4"/>
-            <circle cx="56" cy="16" r="3" fill="#4a9eca" opacity="0.3"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/></circle>
-          </svg>
-          <span class="stat-label" style="text-align:center;">PC Hardware Knowledge<br>Helping Others Build Right</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<div class="divider"></div>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-inner">
-    <div class="reveal">
-      <p class="section-tag">// Systems Check — 002</p>
-      <h2 class="section-title">Skills & Tech</h2>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-category reveal">
-        <span class="skill-icon">🔧</span>
-        <div class="skill-category-name">PC Building</div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Component Selection</span><span class="skill-pct">95%</span></div><div class="skill-bar"><div class="skill-fill" data-width="95"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Assembly & Cable Mgmt</span><span class="skill-pct">92%</span></div><div class="skill-bar"><div class="skill-fill" data-width="92"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Thermal Management</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Custom Water Cooling</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill" data-width="75"></div></div></div>
-      </div>
-      <div class="skill-category reveal">
-        <span class="skill-icon">⚡</span>
-        <div class="skill-category-name">Hardware & Overclocking</div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">CPU / GPU Overclocking</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">RAM Tuning (XMP/EXPO)</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill" data-width="80"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">BIOS Configuration</span><span class="skill-pct">87%</span></div><div class="skill-bar"><div class="skill-fill" data-width="87"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Benchmarking & Stress Tests</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
-      </div>
-      <div class="skill-category reveal">
-        <span class="skill-icon">🖥️</span>
-        <div class="skill-category-name">System & Config</div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Windows Optimization</span><span class="skill-pct">93%</span></div><div class="skill-bar"><div class="skill-fill" data-width="93"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Driver Management</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Storage & RAID Setup</span><span class="skill-pct">82%</span></div><div class="skill-bar"><div class="skill-fill" data-width="82"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Peripheral Setup & RGB</span><span class="skill-pct">96%</span></div><div class="skill-bar"><div class="skill-fill" data-width="96"></div></div></div>
-      </div>
-      <div class="skill-category reveal">
-        <span class="skill-icon">🤖</span>
-        <div class="skill-category-name">Exploring AIs</div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">AI Chatbots & Assistants</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Image Generation AI</span><span class="skill-pct">82%</span></div><div class="skill-bar"><div class="skill-fill" data-width="82"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">AI Tools & Workflows</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-fill" data-width="78"></div></div></div>
-        <div class="skill-item"><div class="skill-item-header"><span class="skill-name">Prompt Engineering</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- HOBBIES -->
-<section id="hobbies">
-  <div class="section-inner">
-    <div class="reveal">
-      <p class="section-tag">// Passenger Log — 003</p>
-      <h2 class="section-title">Hobbies & Interests</h2>
-    </div>
-    <div class="hobbies-grid">
-      <div class="hobby-card featured reveal">
-        <div class="hobby-icon">✈️</div>
-        <div class="hobby-content">
-          <h3>Aviation — A Lifelong Passion</h3>
-          <p>From the moment I saw my first aircraft take off, I was completely hooked. Aviation isn't just a hobby for me — it's a calling. I don't hold a PPL or CPL yet, but that's exactly where I'm headed. Every hour I log in the simulator, every approach I study, every ATC transmission I listen to is a step closer to the cockpit. My dream is to earn my wings and one day fly for real. The sky isn't the limit — it's just the beginning.</p>
-        </div>
-        <div class="corner-tl"></div><div class="corner-br"></div>
-      </div>
-      <div class="hobby-card reveal">
-        <div class="hobby-icon">🎮</div>
-        <div class="hobby-content"><h3>Flight Simulation</h3><p>Microsoft Flight Simulator and X-Plane are my second homes. I've built a home cockpit with multi-monitor setup, rudder pedals, and HOTAS controls — because why fly one way when you can fly every aircraft ever made?</p></div>
-      </div>
-      <div class="hobby-card reveal">
-        <div class="hobby-icon">📡</div>
-        <div class="hobby-content"><h3>Plane Spotting & ATC</h3><p>Armed with a scanner and a flask of coffee at the fence line. I track live ATC feeds on LiveATC.net and can identify most commercial airframes by silhouette alone. There's something meditative about watching metal tubes punch through clouds.</p></div>
-      </div>
-      <div class="hobby-card reveal">
-        <div class="hobby-icon">🌍</div>
-        <div class="hobby-content"><h3>Travel & Exploration</h3><p>Every destination is an excuse to experience different airports, different aircraft, and different skies. I travel whenever possible — window seat, always — and photograph approaches and departures.</p></div>
-      </div>
-      <div class="hobby-card reveal">
-        <div class="hobby-icon">📚</div>
-        <div class="hobby-content"><h3>Aerospace Reading</h3><p>From Shattered Air to The Right Stuff — aviation literature, accident investigation reports, and aerodynamics textbooks fill my shelves. Understanding failures is how we build safer skies.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- METAR WEATHER -->
-<section id="metar-section">
-  <div class="section-inner">
-    <div class="reveal">
-      <p class="section-tag">// Met Office — 004</p>
-      <h2 class="section-title">Live Airport Weather</h2>
-    </div>
-    <div class="reveal">
-      <div class="metar-airports">
-        <button class="metar-btn active" onclick="loadMetar('VABB')">VABB — Mumbai</button>
-        <button class="metar-btn" onclick="loadMetar('EGLL')">EGLL — London</button>
-        <button class="metar-btn" onclick="loadMetar('KLAX')">KLAX — Los Angeles</button>
-        <button class="metar-btn" onclick="loadMetar('OMDB')">OMDB — Dubai</button>
-        <button class="metar-btn" onclick="loadMetar('YSSY')">YSSY — Sydney</button>
-      </div>
-      <div class="metar-box">
-        <div class="metar-grid" id="metarGrid">
-          <div class="metar-item"><div class="metar-val" id="mTemp">--</div><div class="metar-lbl">TEMP °C</div></div>
-          <div class="metar-item"><div class="metar-val" id="mWind">--</div><div class="metar-lbl">WIND KTS</div></div>
-          <div class="metar-item"><div class="metar-val" id="mVis">--</div><div class="metar-lbl">VISIBILITY</div></div>
-          <div class="metar-item"><div class="metar-val" id="mCondition">--</div><div class="metar-lbl">CONDITIONS</div></div>
-        </div>
-        <div class="metar-raw" id="metarRaw">// Loading METAR data...</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FLIGHT LOG -->
-<section id="flightlog-section">
-  <div class="section-inner">
-    <div class="reveal">
-      <p class="section-tag">// Captain's Log — 007</p>
-      <h2 class="section-title">Flight Log</h2>
-    </div>
-    <div class="reveal">
-      <div class="log-entry">
-        <div class="log-date"><span>12</span>MAR<br>2025</div>
-        <div><div class="log-title">VABB → OMDB · B777-300ER</div><div class="log-body">Night departure from Mumbai in heavy rain. Smooth cruise at FL380 over Arabian Sea. Perfect crosswind landing at Dubai with 15 knots at 030°. One of the best runs yet.</div></div>
-        <div class="log-badge">6H 20M</div>
-      </div>
-      <div class="log-entry">
-        <div class="log-date"><span>28</span>JAN<br>2025</div>
-        <div><div class="log-title">EGLL → KJFK · A380-800</div><div class="log-body">Transatlantic crossing with live weather. Hit a gnarly jet stream at FL340, pushed groundspeed to 620 knots. Arrived 20 minutes early. Managed ILS 22L at JFK in fog.</div></div>
-        <div class="log-badge">7H 45M</div>
-      </div>
-      <div class="log-entry">
-        <div class="log-date"><span>05</span>DEC<br>2024</div>
-        <div><div class="log-title">YSSY → RJTT · B787-9</div><div class="log-body">Long haul over the Pacific. Practised RNAV approaches into Tokyo Haneda. Beautiful sunrise over Mount Fuji during descent. Filed real-world AIRAC charts.</div></div>
-        <div class="log-badge">9H 10M</div>
-      </div>
-      <div class="log-entry">
-        <div class="log-date"><span>19</span>NOV<br>2024</div>
-        <div><div class="log-title">VIDP → VABB · A320neo</div><div class="log-body">Short domestic hop Delhi to Mumbai. Full SID/STAR procedure. Practiced speed restrictions and top-of-descent planning. Butter landing on 27 — 10/10.</div></div>
-        <div class="log-badge">2H 05M</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- RIG & SIMS -->
-<section id="rig">
-  <div class="section-inner">
-    <div class="reveal">
-      <p class="section-tag">// Ground Systems — 008</p>
-      <h2 class="section-title">My Rig & Sims</h2>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;">
-      <div class="reveal">
-        <p style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:4px;color:var(--steel);text-transform:uppercase;margin-bottom:20px;">// PC Build — Under Construction</p>
-        <div style="background:var(--panel);border:1px solid rgba(74,158,202,0.2);padding:28px;position:relative;">
-          <div style="position:absolute;top:-10px;left:20px;background:var(--sky);padding:0 10px;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--gold);">SPEC SHEET</div>
-          <div style="display:flex;flex-direction:column;gap:0;">
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(74,158,202,0.1);"><span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--steel);letter-spacing:2px;">CPU</span><span style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;color:var(--dim);">TBA</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(74,158,202,0.1);"><span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--steel);letter-spacing:2px;">GPU</span><span style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;color:var(--dim);">TBA</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(74,158,202,0.1);"><span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--steel);letter-spacing:2px;">RAM</span><span style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;color:var(--dim);">TBA</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(74,158,202,0.1);"><span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--steel);letter-spacing:2px;">MOTHERBOARD</span><span style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;color:var(--dim);">TBA</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(74,158,202,0.1);"><span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--steel);letter-spacing:2px;">STORAGE</span><span style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;color:var(--dim);">TBA</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(74,158,202,0.1);"><span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--steel);letter-spacing:2px;">PSU</span><span style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;color:var(--dim);">TBA</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(74,158,202,0.1);"><span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--steel);letter-spacing:2px;">CASE</span><span style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;color:var(--dim);">TBA</span></div>
-            <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;"><span style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--steel);letter-spacing:2px;">COOLING</span><span style="font-family:'Rajdhani',sans-serif;font-size:0.95rem;color:var(--dim);">TBA</span></div>
+        <div class="about-grid">
+          <div class="about-text-block">
+            <p class="about-p">
+              Tech nerd, full stop. I build and configure PCs the way pilots pre-flight an aircraft — methodically, obsessively, never leaving anything to chance. My entry into cybersecurity is intentional and hungry; I'm studying attack surfaces, hardening systems, and learning to think like the threat. On the web, I don't just build sites — I wire in AI to make them intelligent. And aviation? It's not a hobby, it's a lens. Understanding how complex systems stay airborne teaches you everything about engineering under pressure.
+            </p>
           </div>
-          <div style="margin-top:20px;padding:10px 16px;border:1px dashed rgba(245,166,35,0.4);display:flex;align-items:center;gap:10px;">
-            <span>🔧</span><span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:var(--gold);letter-spacing:2px;">BUILD IN PLANNING PHASE — SPECS COMING SOON</span>
+          <div class="about-metrics">
+            <div class="metric-box">
+              <div class="metric-val">3+</div>
+              <div class="metric-label">AI Sites Shipped</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val">∞</div>
+              <div class="metric-label">Shell Sessions</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val">FL370</div>
+              <div class="metric-label">Target Altitude</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val">24/7</div>
+              <div class="metric-label">Learning Mode</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="reveal">
-        <p style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:4px;color:var(--steel);text-transform:uppercase;margin-bottom:20px;">// Flight Deck — Active Sims</p>
-        <div style="background:var(--panel);border:1px solid rgba(74,158,202,0.2);padding:28px;margin-bottom:20px;position:relative;overflow:hidden;transition:border-color 0.3s;" onmouseover="this.style.borderColor='rgba(74,158,202,0.5)'" onmouseout="this.style.borderColor='rgba(74,158,202,0.2)'">
-          <div style="position:absolute;top:0;right:0;background:rgba(74,158,202,0.1);padding:6px 14px;"><span style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--steel);letter-spacing:2px;">ACTIVE</span></div>
-          <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px;">
-            <span style="font-size:2.5rem;filter:drop-shadow(0 0 10px rgba(74,158,202,0.7));">✈️</span>
-            <div><div style="font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:700;color:var(--white);">MICROSOFT FLIGHT SIMULATOR</div><div style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--gold);margin-top:4px;">2020 EDITION</div></div>
+      </section>
+
+      <!-- ─── SKILLS ─────────────────────────────────────────── -->
+      <section class="section" id="skills">
+        <div class="section-head">
+          <span class="section-num">02</span>
+          <span class="section-title">SKILLS</span>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-card-top">
+              <span class="skill-index">SKL_01</span>
+              <span class="skill-badge active">ACTIVE</span>
+            </div>
+            <div class="skill-name">PC Building &amp; Configuration</div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-fill" style="--pct: 90%"></div>
+            </div>
+            <div class="skill-pct">90%</div>
           </div>
-          <p style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;color:rgba(240,244,248,0.6);line-height:1.6;">The gold standard of civil aviation simulation. Exploring real-world airports, live weather systems, and hand-flying everything from bush planes to airliners.</p>
-          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
-            <span style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;padding:4px 10px;border:1px solid rgba(74,158,202,0.3);color:var(--steel);">IFR</span>
-            <span style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;padding:4px 10px;border:1px solid rgba(74,158,202,0.3);color:var(--steel);">VFR</span>
-            <span style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;padding:4px 10px;border:1px solid rgba(74,158,202,0.3);color:var(--steel);">LIVE WEATHER</span>
+
+          <div class="skill-card">
+            <div class="skill-card-top">
+              <span class="skill-index">SKL_02</span>
+              <span class="skill-badge learning">LEARNING</span>
+            </div>
+            <div class="skill-name">Cybersecurity</div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-fill" style="--pct: 38%"></div>
+            </div>
+            <div class="skill-pct">38%</div>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-card-top">
+              <span class="skill-index">SKL_03</span>
+              <span class="skill-badge active">ACTIVE</span>
+            </div>
+            <div class="skill-name">AI Web Development</div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-fill" style="--pct: 80%"></div>
+            </div>
+            <div class="skill-pct">80%</div>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-card-top">
+              <span class="skill-index">SKL_04</span>
+              <span class="skill-badge enthusiast">PASSION</span>
+            </div>
+            <div class="skill-name">Aviation Systems</div>
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-fill" style="--pct: 58%"></div>
+            </div>
+            <div class="skill-pct">58%</div>
           </div>
         </div>
-        <div style="background:var(--panel);border:1px solid rgba(245,166,35,0.3);padding:28px;position:relative;overflow:hidden;transition:border-color 0.3s;" onmouseover="this.style.borderColor='rgba(245,166,35,0.6)'" onmouseout="this.style.borderColor='rgba(245,166,35,0.3)'">
-          <div style="position:absolute;top:0;right:0;background:rgba(245,166,35,0.1);padding:6px 14px;"><span style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:var(--gold);letter-spacing:2px;">NEW ★</span></div>
-          <div style="display:flex;align-items:center;gap:16px;margin-bottom:14px;">
-            <span style="font-size:2.5rem;filter:drop-shadow(0 0 10px rgba(245,166,35,0.7));">🛫</span>
-            <div><div style="font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:700;color:var(--white);">MICROSOFT FLIGHT SIMULATOR</div><div style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:var(--gold);margin-top:4px;">2024 EDITION</div></div>
-          </div>
-          <p style="font-family:'Rajdhani',sans-serif;font-size:0.9rem;color:rgba(240,244,248,0.6);line-height:1.6;">The next generation of flight simulation. Enhanced graphics, new career mode, and the most realistic flight dynamics ever.</p>
-          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
-            <span style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;padding:4px 10px;border:1px solid rgba(245,166,35,0.3);color:var(--gold);">CAREER MODE</span>
-            <span style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;padding:4px 10px;border:1px solid rgba(245,166,35,0.3);color:var(--gold);">NEXT-GEN</span>
-            <span style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;padding:4px 10px;border:1px solid rgba(245,166,35,0.3);color:var(--gold);">ULTRA REALISM</span>
-          </div>
+      </section>
+
+      <!-- ─── PROJECTS ──────────────────────────────────────── -->
+      <section class="section" id="projects">
+        <div class="section-head">
+          <span class="section-num">03</span>
+          <span class="section-title">PROJECTS</span>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="projects-grid">
+
+          <article class="project-card">
+            <div class="project-top">
+              <span class="project-id">PRJ_01</span>
+              <span class="project-status status-live">● LIVE</span>
+            </div>
+            <h3 class="project-title">AI Websites</h3>
+            <p class="project-desc">Full-stack single-page sites for local businesses. AI-assisted content generation, mobile-first build, custom brand systems. Zero dependencies, pure HTML/CSS/JS.</p>
+            <div class="project-footer">
+              <span class="project-tag">HTML</span>
+              <span class="project-tag">CSS</span>
+              <span class="project-tag">AI</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-top">
+              <span class="project-id">PRJ_02</span>
+              <span class="project-status status-wip">◐ WIP</span>
+            </div>
+            <h3 class="project-title">Network Recon Toolkit</h3>
+            <p class="project-desc">Personal suite of scripts for enumeration and passive footprinting. Built as a learning lab — each tool ships with documented methodology and test cases.</p>
+            <div class="project-footer">
+              <span class="project-tag">PYTHON</span>
+              <span class="project-tag">BASH</span>
+              <span class="project-tag">NETSEC</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-top">
+              <span class="project-id">PRJ_03</span>
+              <span class="project-status status-live">● LIVE</span>
+            </div>
+            <h3 class="project-title">PC Build Engineering Logs</h3>
+            <p class="project-desc">Component selection rationale, thermal benchmark deltas, BIOS tuning journals, and stability test results — documented as engineering-grade build reports.</p>
+            <div class="project-footer">
+              <span class="project-tag">HARDWARE</span>
+              <span class="project-tag">DOCS</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-top">
+              <span class="project-id">PRJ_04</span>
+              <span class="project-status status-concept">○ CONCEPT</span>
+            </div>
+            <h3 class="project-title">FlightDesk Dashboard</h3>
+            <p class="project-desc">Live aviation interface: real-time flight paths, weather overlays, METAR feeds, and ATC stream integration in a single cockpit-inspired web panel.</p>
+            <div class="project-footer">
+              <span class="project-tag">AVIATION</span>
+              <span class="project-tag">API</span>
+              <span class="project-tag">MAPS</span>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ─── CONNECTIONS ───────────────────────────────────── -->
+      <section class="section" id="connect">
+        <div class="section-head">
+          <span class="section-num">04</span>
+          <span class="section-title">CONNECT</span>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="conn-grid">
+
+          <a href="https://github.com/sidz-bot/" target="_blank" rel="noopener noreferrer" class="conn-card">
+            <div class="conn-icon">GH</div>
+            <div class="conn-info">
+              <div class="conn-name">GitHub</div>
+              <div class="conn-sub">sidz-bot</div>
+            </div>
+            <div class="conn-arrow">↗</div>
+          </a>
+
+          <a href="https://discord.com/users/965627223350595646/" target="_blank" rel="noopener noreferrer" class="conn-card">
+            <div class="conn-icon">DC</div>
+            <div class="conn-info">
+              <div class="conn-name">Discord</div>
+              <div class="conn-sub">sidz</div>
+            </div>
+            <div class="conn-arrow">↗</div>
+          </a>
+
+          <a href="https://x.com/SiddhartLambore/" target="_blank" rel="noopener noreferrer" class="conn-card">
+            <div class="conn-icon">X·</div>
+            <div class="conn-info">
+              <div class="conn-name">Twitter / X</div>
+              <div class="conn-sub">sidz</div>
+            </div>
+            <div class="conn-arrow">↗</div>
+          </a>
+
+          <a href="https://www.instagram.com/flysidz/" target="_blank" rel="noopener noreferrer" class="conn-card">
+            <div class="conn-icon">IG</div>
+            <div class="conn-info">
+              <div class="conn-name">Instagram</div>
+              <div class="conn-sub">sidz</div>
+            </div>
+            <div class="conn-arrow">↗</div>
+          </a>
+
+          <a href="https://www.instagram.com/siddharthlambore?igsh=bGF4Z2ZiYWtpdDJm" target="_blank" rel="noopener noreferrer" class="conn-card">
+            <div class="conn-icon">IG</div>
+            <div class="conn-info">
+              <div class="conn-name">Instagram</div>
+              <div class="conn-sub">siddharth</div>
+            </div>
+            <div class="conn-arrow">↗</div>
+          </a>
+
+          <a href="https://youtube.com/@flysidz/" target="_blank" rel="noopener noreferrer" class="conn-card">
+            <div class="conn-icon">YT</div>
+            <div class="conn-info">
+              <div class="conn-name">YouTube</div>
+              <div class="conn-sub">sidz</div>
+            </div>
+            <div class="conn-arrow">↗</div>
+          </a>
+
+          <a href="mailto:siddharth.lambore@gmail.com" class="conn-card conn-email">
+            <div class="conn-icon">ML</div>
+            <div class="conn-info">
+              <div class="conn-name">Email</div>
+              <div class="conn-sub">siddharth.lambore@gmail.com</div>
+            </div>
+            <div class="conn-arrow">↗</div>
+          </a>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ████████████████████████ FOOTER ████████████████████████ -->
+    <footer class="footer">
+      <div class="footer-top-rule"></div>
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-brand">sidz-bot</span>
+          <span class="footer-ver">v3.1</span>
+        </div>
+        <div class="footer-center">
+          <span class="footer-cmd">i/drive</span>
+          <span class="footer-cmd">i/fly</span>
+          <span class="footer-cmd">i/code</span>
+          <span class="footer-cmd">i/build</span>
+        </div>
+        <div class="footer-right">
+          <span class="footer-note">HANDCRAFTED. NO FRAMEWORKS.</span>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </footer>
 
-<div class="divider"></div>
-
-<!-- CONNECT -->
-<section id="contact">
-  <div class="section-inner">
-    <div class="reveal">
-      <p class="section-tag">// Comms Channel — 009</p>
-      <h2 class="section-title">Connect Here</h2>
-    </div>
-    <div class="contact-grid">
-      <div class="contact-info reveal">
-        <p>Whether it's a collaboration, a chat about aviation, a hiring inquiry or getting known to pc hardware and software— my frequency is always open.</p>
-        <div class="contact-links">
-          <a href="https://youtube.com/@flysidz?si=K8-OOx7hVIQj3ksV" target="_blank" class="contact-link"><span class="contact-link-icon">▶️</span>youtube.com/@flysidz</a>
-          <a href="https://www.instagram.com/flysidz/" target="_blank" class="contact-link"><span class="contact-link-icon">📸</span>instagram.com/flysidz</a>
-          <a href="https://www.twitch.tv/sidz_http" target="_blank" class="contact-link"><span class="contact-link-icon">🎮</span>twitch.tv/sidz_http</a>
-          <a href="https://discord.gg/CTQEFuPH" target="_blank" class="contact-link"><span class="contact-link-icon">💬</span>discord — sidz3904</a>
-          <a href="https://steamcommunity.com/id/sidz06/" target="_blank" class="contact-link"><span class="contact-link-icon">🎮</span>steam — sidz06</a>
-          <a href="https://www.xbox.com/en-US/play/user/sidz777" target="_blank" class="contact-link"><span class="contact-link-icon">🟩</span>xbox — sidz777</a>
-        </div>
-      </div>
-      <div class="contact-form reveal">
-        <div class="form-group"><input type="text" placeholder="CALLSIGN (Your Name)"></div>
-        <div class="form-group"><input type="email" placeholder="FREQ (Your Email)"></div>
-        <div class="form-group"><textarea placeholder="TRANSMISSION (Your Message)"></textarea></div>
-        <button class="form-submit">Transmit ▶</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 <span>FLYSIDZ</span> — All rights reserved</p>
-  <p>Designed at <span>35,000ft</span> · Made with ✈️ & ☕</p>
-</footer>
-
-<script>
-// ── LOADER ──
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const loader = document.getElementById('loader');
-    loader.style.opacity = '0';
-    setTimeout(() => { loader.style.display = 'none'; startATC(); }, 800);
-  }, 2800);
-});
-
-// ── STARS ──
-const starsEl = document.getElementById('stars');
-for (let i = 0; i < 180; i++) {
-  const s = document.createElement('div');
-  s.className = 'star';
-  const size = Math.random() * 2.5 + 0.5;
-  s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${size}px;height:${size}px;--d:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;`;
-  starsEl.appendChild(s);
-}
-
-// ── CURSOR ──
-const cursor = document.getElementById('cursor');
-const dot = document.getElementById('cursorDot');
-let mx=0,my=0,cx=0,cy=0;
-document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; dot.style.left=mx+'px'; dot.style.top=my+'px'; });
-(function animCursor(){ cx+=(mx-cx)*0.15; cy+=(my-cy)*0.15; cursor.style.left=cx+'px'; cursor.style.top=cy+'px'; requestAnimationFrame(animCursor); })();
-
-// ── HUD FLICKER ──
-function randomFlicker(id, base, range) {
-  const el = document.getElementById(id);
-  if (el) setInterval(() => { const v = base + Math.floor((Math.random()-0.5)*range); el.textContent = id==='altitude' ? v.toLocaleString() : v; }, 1800 + Math.random()*1200);
-}
-randomFlicker('altitude', 35000, 400);
-randomFlicker('speed', 450, 20);
-randomFlicker('heading', 270, 10);
-
-// ── HAMBURGER ──
-function toggleDrawer() {
-  const drawer = document.getElementById('mobileDrawer');
-  const burger = document.getElementById('hamburger');
-  drawer.classList.toggle('open');
-  burger.classList.toggle('open');
-}
-function closeDrawer() {
-  document.getElementById('mobileDrawer').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-}
-// Close drawer on scroll
-window.addEventListener('scroll', closeDrawer, { passive: true });
-
-// ── THEME TOGGLE ──
-function toggleTheme() {
-  document.body.classList.toggle('day-mode');
-  const isDay = document.body.classList.contains('day-mode');
-  document.getElementById('themeBtn').textContent = isDay ? '🌙 NIGHT' : '☀ DAY';
-  const dBtn = document.getElementById('drawerThemeBtn');
-  if (dBtn) dBtn.textContent = isDay ? '🌙 NIGHT MODE' : '☀ DAY MODE';
-}
-
-// ── AUDIO ──
-let audioCtx = null, gainNode = null, audioOn = false;
-function toggleAudio() {
-  if (!audioOn) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    gainNode = audioCtx.createGain();
-    gainNode.gain.value = 0.03;
-    gainNode.connect(audioCtx.destination);
-    // Cabin hum — two oscillators detuned
-    [80, 82.5].forEach(freq => {
-      const osc = audioCtx.createOscillator();
-      osc.type = 'sawtooth';
-      osc.frequency.value = freq;
-      osc.connect(gainNode);
-      osc.start();
-    });
-    audioOn = true;
-    document.getElementById('audioBtn').textContent = '🔊';
-    document.getElementById('audioBtn').style.color = 'var(--gold)';
-  } else {
-    audioCtx.close();
-    audioOn = false;
-    document.getElementById('audioBtn').textContent = '🔇';
-    document.getElementById('audioBtn').style.color = '';
-  }
-}
-
-// ── ATC TICKER ──
-const atcLines = [
-  'FlySidz, you are cleared for takeoff runway 27L, wind 270 at 12 knots.',
-  'FlySidz Heavy, climb and maintain FL350, direct OMDB, squawk 2341.',
-  'FlySidz, contact Mumbai Approach on 120.35, good day.',
-  'FlySidz, traffic alert — Airbus A320 at your 2 o\'clock, 5 miles, same altitude.',
-  'FlySidz, expect ILS approach runway 09, QNH 1013, report established.',
-  'FlySidz, you are cleared to land runway 27, wind calm, surface good.',
-  'FlySidz, radar contact lost. Confirm position and squawk ident.',
-  'FlySidz, welcome to Dubai, temperature 38 degrees, enjoy your stay.',
-];
-let atcIdx = 0;
-function startATC() {
-  typeATC(atcLines[atcIdx]);
-}
-function typeATC(msg) {
-  const el = document.getElementById('atcMsg');
-  el.textContent = '';
-  let i = 0;
-  const timer = setInterval(() => {
-    if (i < msg.length) { el.textContent += msg[i]; i++; }
-    else {
-      clearInterval(timer);
-      setTimeout(() => { atcIdx = (atcIdx+1) % atcLines.length; typeATC(atcLines[atcIdx]); }, 3000);
-    }
-  }, 40);
-}
-
-// ── SCROLL REVEAL ──
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const siblings = [...e.target.parentElement.children].filter(c=>c.classList.contains('reveal'));
-      const idx = siblings.indexOf(e.target);
-      setTimeout(() => e.target.classList.add('visible'), idx * 120);
-      observer.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.1 });
-reveals.forEach(r => observer.observe(r));
-
-// ── SKILL BARS ──
-const skillObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.querySelectorAll('.skill-fill').forEach(bar => { bar.style.width = bar.dataset.width + '%'; });
-      skillObs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.3 });
-document.querySelectorAll('.skill-category').forEach(s => skillObs.observe(s));
-
-// ── SMOOTH NAV ──
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) t.scrollIntoView({ behavior:'smooth' });
-  });
-});
-
-// ── NAV ACTIVE ──
-window.addEventListener('scroll', () => {
-  ['about','skills','hobbies','metar-section','rig','contact'].forEach(id => {
-    const sec = document.getElementById(id);
-    const link = document.querySelector(`a[href="#${id}"]`);
-    if (!sec || !link) return;
-    const rect = sec.getBoundingClientRect();
-    link.style.color = (rect.top <= 120 && rect.bottom > 120) ? 'var(--white)' : '';
-  });
-});
-
-// ── METAR WIDGET ──
-const metarData = {
-  VABB: { temp:'32', wind:'12', vis:'6000m', cond:'HAZE', raw:'VABB 060530Z 27012KT 6000 HZ FEW030 SCT100 32/24 Q1008 NOSIG' },
-  EGLL: { temp:'14', wind:'8', vis:'9999m', cond:'FEW', raw:'EGLL 060520Z 22008KT 9999 FEW025 14/09 Q1018 NOSIG' },
-  KLAX: { temp:'22', wind:'15', vis:'9999m', cond:'CLEAR', raw:'KLAX 060453Z 25015KT 9999 SKC 22/11 A2992 RMK AO2' },
-  OMDB: { temp:'38', wind:'5', vis:'8000m', cond:'DUST', raw:'OMDB 060500Z 32005KT 8000 DU SKC 38/20 Q1000 NOSIG' },
-  YSSY: { temp:'18', wind:'20', vis:'9999m', cond:'SCT', raw:'YSSY 060530Z 18020KT 9999 SCT020 18/13 Q1022 NOSIG' },
-};
-function loadMetar(icao) {
-  document.querySelectorAll('.metar-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.metar-btn[onclick="loadMetar('${icao}')"]`).classList.add('active');
-  const d = metarData[icao];
-  document.getElementById('mTemp').textContent = d.temp + '°';
-  document.getElementById('mWind').textContent = d.wind;
-  document.getElementById('mVis').textContent = d.vis;
-  document.getElementById('mCondition').textContent = d.cond;
-  document.getElementById('metarRaw').textContent = '// ' + d.raw;
-}
-loadMetar('VABB');
-
-// ── QUIZ ──
-const quizQuestions = [
-  { q:"What does ATC stand for?", options:["Air Traffic Control","Aircraft Technical Check","Altitude Thrust Control","Automated Tower Command"], answer:0 },
-  { q:"What is the standard cruising altitude for most commercial jets?", options:["10,000–15,000 ft","20,000–25,000 ft","30,000–40,000 ft","50,000–60,000 ft"], answer:2 },
-  { q:"What does 'V1' mean during takeoff?", options:["Maximum landing speed","Decision speed — point of no return","Minimum fuel speed","First engine start speed"], answer:1 },
-  { q:"What colour are taxiway centreline lights?", options:["Blue","Red","Green","White"], answer:2 },
-  { q:"What does squawking 7700 indicate?", options:["Radio failure","Hijack","General emergency","Military intercept"], answer:2 },
-  { q:"What does IFR stand for?", options:["Instrument Flight Rules","Internal Fuel Reserve","Inbound Flight Relay","Integrated Flight Radar"], answer:0 },
-  { q:"Which is the ICAO code for London Heathrow?", options:["KLAX","EGLL","YSSY","OMDB"], answer:1 },
-  { q:"What is a 'go-around'?", options:["A missed approach — pilot climbs and retries","A U-turn on the runway","An emergency landing","A holding pattern"], answer:0 },
-  { q:"What does ATIS broadcast?", options:["Emergency alerts only","Automatic Terminal Information Service","Air Traffic Interception Signals","Altitude and Terrain Info System"], answer:1 },
-  { q:"What colour is an airport beacon for civilian airports?", options:["Red and white","Green and white","Blue and white","Yellow and white"], answer:1 },
-];
-let pendingLink = null;
-const modalHTML = `<div id="quizOverlay" style="display:none;position:fixed;inset:0;z-index:999999;background:rgba(5,10,20,0.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;"><div id="quizBox" style="max-width:520px;width:90%;background:#0d1b2e;border:1px solid rgba(74,158,202,0.4);padding:40px;position:relative;box-shadow:0 0 60px rgba(74,158,202,0.15);"><div style="position:absolute;top:12px;left:12px;width:16px;height:16px;border-top:1px solid #4a9eca;border-left:1px solid #4a9eca;"></div><div style="position:absolute;bottom:12px;right:12px;width:16px;height:16px;border-bottom:1px solid #4a9eca;border-right:1px solid #4a9eca;"></div><p style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:4px;color:#4a9eca;margin-bottom:6px;">// PRE-FLIGHT CHECK</p><p style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;color:#f0f4f8;margin-bottom:28px;">AVIATION QUIZ</p><p id="quizQuestion" style="font-family:'Rajdhani',sans-serif;font-size:1.1rem;color:#f0f4f8;line-height:1.6;margin-bottom:24px;min-height:52px;"></p><div id="quizOptions" style="display:flex;flex-direction:column;gap:10px;"></div><div id="quizResult" style="display:none;margin-top:24px;padding:16px 20px;text-align:center;"><div id="quizResultIcon" style="font-size:2.5rem;margin-bottom:8px;"></div><div id="quizResultTitle" style="font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;margin-bottom:6px;"></div><div id="quizResultMsg" style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:1px;color:#8aa4be;"></div><div id="quizRedirectMsg" style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#4a9eca;margin-top:12px;letter-spacing:1px;"></div></div><button id="quizSkip" onclick="closeQuiz(true)" style="margin-top:24px;background:transparent;border:none;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:2px;color:#8aa4be;cursor:pointer;display:block;text-align:center;width:100%;">[ SKIP — PROCEED TO LINK ]</button></div></div>`;
-document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-function openQuiz(url) {
-  pendingLink = url;
-  const q = quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
-  document.getElementById('quizQuestion').textContent = q.q;
-  document.getElementById('quizResult').style.display = 'none';
-  document.getElementById('quizSkip').style.display = 'block';
-  const optEl = document.getElementById('quizOptions');
-  optEl.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.textContent = opt;
-    btn.style.cssText = 'background:rgba(74,158,202,0.05);border:1px solid rgba(74,158,202,0.2);color:#f0f4f8;padding:12px 16px;text-align:left;font-family:Rajdhani,sans-serif;font-size:0.95rem;cursor:pointer;transition:all 0.2s;width:100%;';
-    btn.onmouseover = () => btn.style.background = 'rgba(74,158,202,0.12)';
-    btn.onmouseout  = () => btn.style.background = 'rgba(74,158,202,0.05)';
-    btn.onclick = () => handleAnswer(i === q.answer, btn, optEl);
-    optEl.appendChild(btn);
-  });
-  const ov = document.getElementById('quizOverlay');
-  ov.style.display = 'flex';
-}
-function handleAnswer(correct, btn, optEl) {
-  optEl.querySelectorAll('button').forEach(b => { b.style.pointerEvents='none'; b.style.opacity='0.5'; });
-  btn.style.opacity = '1';
-  const res = document.getElementById('quizResult');
-  document.getElementById('quizSkip').style.display = 'none';
-  if (correct) {
-    btn.style.background = 'rgba(74,158,202,0.25)'; btn.style.borderColor = '#4a9eca';
-    document.getElementById('quizResultIcon').textContent = '🛫';
-    document.getElementById('quizResultTitle').style.color = '#4a9eca';
-    document.getElementById('quizResultTitle').textContent = 'POSITIVE RATE — GEAR UP!';
-    document.getElementById('quizResultMsg').textContent = 'CORRECT · CLEARED FOR DEPARTURE';
-    res.style.background = 'rgba(74,158,202,0.08)'; res.style.border = '1px solid rgba(74,158,202,0.3)';
-  } else {
-    btn.style.background = 'rgba(255,107,53,0.15)'; btn.style.borderColor = '#ff6b35';
-    document.getElementById('quizResultIcon').textContent = '🛑';
-    document.getElementById('quizResultTitle').style.color = '#ff6b35';
-    document.getElementById('quizResultTitle').textContent = 'GROUNDED!';
-    document.getElementById('quizResultMsg').textContent = 'WRONG ANSWER · REDIRECTING ANYWAY...';
-    res.style.background = 'rgba(255,107,53,0.05)'; res.style.border = '1px solid rgba(255,107,53,0.3)';
-  }
-  document.getElementById('quizRedirectMsg').textContent = '▶ OPENING LINK IN 2 SECONDS...';
-  res.style.display = 'block';
-  setTimeout(() => closeQuiz(true), 2000);
-}
-function closeQuiz(redirect) {
-  document.getElementById('quizOverlay').style.display = 'none';
-  if (redirect && pendingLink) { window.open(pendingLink, '_blank'); pendingLink = null; }
-}
-document.querySelectorAll('.contact-link[href^="http"]').forEach(a => {
-  a.addEventListener('click', e => { e.preventDefault(); openQuiz(a.href); });
-});
-document.getElementById('quizOverlay').addEventListener('click', function(e) { if(e.target===this) closeQuiz(true); });
-</script>
+  </div><!-- /page-wrapper -->
 </body>
 </html>
